@@ -1,0 +1,2 @@
+D:\School\T4\COMP 4995\d3d12book\Chapter 11 Stenciling\StencilDemo\x64\Debug\StencilDemo.exe
+D:\School\T4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\x64\Debug\StencilDemo.exe
