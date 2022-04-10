@@ -1,2 +1,5 @@
 ﻿  StencilApp.cpp
-  StencilDemo.vcxproj -> C:\School\Term4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\x64\Debug\StencilDemo.exe
+D:\School\T4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\StencilApp.cpp(538,12): warning C4101: 'invisiblePastPlane': unreferenced local variable
+D:\School\T4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\StencilApp.cpp(580): warning C4715: 'StencilApp::FindMirrorPlane': not all control paths return a value
+D:\School\T4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\StencilApp.cpp(599): warning C4715: 'StencilApp::FindMirrorOffset': not all control paths return a value
+  StencilDemo.vcxproj -> D:\School\T4\COMP 4995\asn3\Chapter 11 Stenciling\StencilDemo\x64\Debug\StencilDemo.exe
