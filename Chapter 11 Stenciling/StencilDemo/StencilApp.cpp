@@ -816,10 +816,35 @@ void StencilApp::BuildRoomGeometry()
 	//wallSubmesh.StartIndexLocation = 6;
 	//wallSubmesh.BaseVertexLocation = 0;
 
-	SubmeshGeometry mirrorSubmesh;
-	mirrorSubmesh.IndexCount = 6;
-	mirrorSubmesh.StartIndexLocation = 0;
-	mirrorSubmesh.BaseVertexLocation = 0;
+	SubmeshGeometry mirrorFrontSubmesh;
+	mirrorFrontSubmesh.IndexCount = 6;
+	mirrorFrontSubmesh.StartIndexLocation = 0;
+	mirrorFrontSubmesh.BaseVertexLocation = 0;
+
+	SubmeshGeometry mirrorTopSubmesh;
+	mirrorTopSubmesh.IndexCount = 6;
+	mirrorTopSubmesh.StartIndexLocation = 6;
+	mirrorTopSubmesh.BaseVertexLocation = 0;
+
+	SubmeshGeometry mirrorLeftSubmesh;
+	mirrorLeftSubmesh.IndexCount = 6;
+	mirrorLeftSubmesh.StartIndexLocation = 12;
+	mirrorLeftSubmesh.BaseVertexLocation = 0;
+
+	SubmeshGeometry mirrorRightSubmesh;
+	mirrorRightSubmesh.IndexCount = 6;
+	mirrorRightSubmesh.StartIndexLocation = 18;
+	mirrorRightSubmesh.BaseVertexLocation = 0;
+
+	SubmeshGeometry mirrorBackSubmesh;
+	mirrorBackSubmesh.IndexCount = 6;
+	mirrorBackSubmesh.StartIndexLocation = 24;
+	mirrorBackSubmesh.BaseVertexLocation = 0;
+
+	SubmeshGeometry mirrorBottomSubmesh;
+	mirrorBottomSubmesh.IndexCount = 6;
+	mirrorBottomSubmesh.StartIndexLocation = 30;
+	mirrorBottomSubmesh.BaseVertexLocation = 0;
 
     const UINT vbByteSize = (UINT)vertices.size() * sizeof(Vertex);
     const UINT ibByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
@@ -844,9 +869,12 @@ void StencilApp::BuildRoomGeometry()
 	geo->IndexFormat = DXGI_FORMAT_R16_UINT;
 	geo->IndexBufferByteSize = ibByteSize;
 
-	//geo->DrawArgs["floor"] = floorSubmesh;
-	//geo->DrawArgs["wall"] = wallSubmesh;
-	geo->DrawArgs["mirrorFront"] = mirrorSubmesh;
+	geo->DrawArgs["mirrorFront"] = mirrorFrontSubmesh;
+	geo->DrawArgs["mirrorTop"] = mirrorTopSubmesh;
+	geo->DrawArgs["mirrorLeft"] = mirrorLeftSubmesh;
+	geo->DrawArgs["mirrorRight"] = mirrorRightSubmesh;
+	geo->DrawArgs["mirrorBack"] = mirrorBackSubmesh;
+	geo->DrawArgs["mirrorBottom"] = mirrorBottomSubmesh;
 
 	mGeometries[geo->Name] = std::move(geo);
 }
@@ -1208,25 +1236,95 @@ void StencilApp::BuildRenderItems()
 	mShadowedSkullRitem = shadowedSkullRitem.get();
 	mRitemLayer[(int)RenderLayer::Shadow].push_back(shadowedSkullRitem.get());
 
-	auto mirrorRitem = std::make_unique<RenderItem>();
-	mirrorRitem->World = MathHelper::Identity4x4();
-	mirrorRitem->TexTransform = MathHelper::Identity4x4();
-	mirrorRitem->ObjCBIndex = 5;
-	mirrorRitem->Mat = mMaterials["icemirror"].get();
-	mirrorRitem->Geo = mGeometries["roomGeo"].get();
-	mirrorRitem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	mirrorRitem->IndexCount = mirrorRitem->Geo->DrawArgs["mirrorFront"].IndexCount;
-	mirrorRitem->StartIndexLocation = mirrorRitem->Geo->DrawArgs["mirrorFront"].StartIndexLocation;
-	mirrorRitem->BaseVertexLocation = mirrorRitem->Geo->DrawArgs["mirrorFront"].BaseVertexLocation;
-	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorRitem.get());
-	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorRitem.get());
+	auto mirrorFrontRItem = std::make_unique<RenderItem>();
+	mirrorFrontRItem->World = MathHelper::Identity4x4();
+	mirrorFrontRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorFrontRItem->ObjCBIndex = 5;
+	mirrorFrontRItem->Mat = mMaterials["icemirror"].get();
+	mirrorFrontRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorFrontRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorFrontRItem->IndexCount = mirrorFrontRItem->Geo->DrawArgs["mirrorFront"].IndexCount;
+	mirrorFrontRItem->StartIndexLocation = mirrorFrontRItem->Geo->DrawArgs["mirrorFront"].StartIndexLocation;
+	mirrorFrontRItem->BaseVertexLocation = mirrorFrontRItem->Geo->DrawArgs["mirrorFront"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorFrontRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorFrontRItem.get());
+
+	auto mirrorTopRItem = std::make_unique<RenderItem>();
+	mirrorTopRItem->World = MathHelper::Identity4x4();
+	mirrorTopRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorTopRItem->ObjCBIndex = 6;
+	mirrorTopRItem->Mat = mMaterials["icemirror"].get();
+	mirrorTopRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorTopRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorTopRItem->IndexCount = mirrorTopRItem->Geo->DrawArgs["mirrorTop"].IndexCount;
+	mirrorTopRItem->StartIndexLocation = mirrorTopRItem->Geo->DrawArgs["mirrorTop"].StartIndexLocation;
+	mirrorTopRItem->BaseVertexLocation = mirrorTopRItem->Geo->DrawArgs["mirrorTop"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorTopRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorTopRItem.get());
+
+	auto mirrorLeftRItem = std::make_unique<RenderItem>();
+	mirrorLeftRItem->World = MathHelper::Identity4x4();
+	mirrorLeftRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorLeftRItem->ObjCBIndex = 7;
+	mirrorLeftRItem->Mat = mMaterials["icemirror"].get();
+	mirrorLeftRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorLeftRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorLeftRItem->IndexCount = mirrorLeftRItem->Geo->DrawArgs["mirrorLeft"].IndexCount;
+	mirrorLeftRItem->StartIndexLocation = mirrorLeftRItem->Geo->DrawArgs["mirrorLeft"].StartIndexLocation;
+	mirrorLeftRItem->BaseVertexLocation = mirrorLeftRItem->Geo->DrawArgs["mirrorLeft"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorLeftRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorLeftRItem.get());
+
+	auto mirrorRightRItem = std::make_unique<RenderItem>();
+	mirrorRightRItem->World = MathHelper::Identity4x4();
+	mirrorRightRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorRightRItem->ObjCBIndex = 8;
+	mirrorRightRItem->Mat = mMaterials["icemirror"].get();
+	mirrorRightRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorRightRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorRightRItem->IndexCount = mirrorRightRItem->Geo->DrawArgs["mirrorRight"].IndexCount;
+	mirrorRightRItem->StartIndexLocation = mirrorRightRItem->Geo->DrawArgs["mirrorRight"].StartIndexLocation;
+	mirrorRightRItem->BaseVertexLocation = mirrorRightRItem->Geo->DrawArgs["mirrorRight"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorRightRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorRightRItem.get());
+
+	auto mirrorBackRItem = std::make_unique<RenderItem>();
+	mirrorBackRItem->World = MathHelper::Identity4x4();
+	mirrorBackRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorBackRItem->ObjCBIndex = 9;
+	mirrorBackRItem->Mat = mMaterials["icemirror"].get();
+	mirrorBackRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorBackRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorBackRItem->IndexCount = mirrorBackRItem->Geo->DrawArgs["mirrorBack"].IndexCount;
+	mirrorBackRItem->StartIndexLocation = mirrorBackRItem->Geo->DrawArgs["mirrorBack"].StartIndexLocation;
+	mirrorBackRItem->BaseVertexLocation = mirrorBackRItem->Geo->DrawArgs["mirrorBack"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorBackRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorBackRItem.get());
+
+	auto mirrorBottomRItem = std::make_unique<RenderItem>();
+	mirrorBottomRItem->World = MathHelper::Identity4x4();
+	mirrorBottomRItem->TexTransform = MathHelper::Identity4x4();
+	mirrorBottomRItem->ObjCBIndex = 10;
+	mirrorBottomRItem->Mat = mMaterials["icemirror"].get();
+	mirrorBottomRItem->Geo = mGeometries["roomGeo"].get();
+	mirrorBottomRItem->PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	mirrorBottomRItem->IndexCount = mirrorBottomRItem->Geo->DrawArgs["mirrorBottom"].IndexCount;
+	mirrorBottomRItem->StartIndexLocation = mirrorBottomRItem->Geo->DrawArgs["mirrorBottom"].StartIndexLocation;
+	mirrorBottomRItem->BaseVertexLocation = mirrorBottomRItem->Geo->DrawArgs["mirrorBottom"].BaseVertexLocation;
+	mRitemLayer[(int)RenderLayer::Mirrors].push_back(mirrorBottomRItem.get());
+	mRitemLayer[(int)RenderLayer::Transparent].push_back(mirrorBottomRItem.get());
 
 	mAllRitems.push_back(std::move(floorRitem));
 	mAllRitems.push_back(std::move(wallsRitem));
 	mAllRitems.push_back(std::move(skullRitem));
 	mAllRitems.push_back(std::move(reflectedSkullRitem));
 	mAllRitems.push_back(std::move(shadowedSkullRitem));
-	mAllRitems.push_back(std::move(mirrorRitem));
+	mAllRitems.push_back(std::move(mirrorFrontRItem));
+	mAllRitems.push_back(std::move(mirrorTopRItem));
+	mAllRitems.push_back(std::move(mirrorLeftRItem));
+	mAllRitems.push_back(std::move(mirrorRightRItem));
+	mAllRitems.push_back(std::move(mirrorBackRItem));
+	mAllRitems.push_back(std::move(mirrorBottomRItem));
 }
 
 void StencilApp::DrawRenderItems(ID3D12GraphicsCommandList* cmdList, const std::vector<RenderItem*>& ritems)
